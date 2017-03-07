@@ -1,0 +1,19 @@
+{
+    "name": "abrachist/cyom",
+    "description": "create your own module with crud generator",
+    "authors": [
+        {
+            "name": "abrachist",
+            "email": "manharist@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "laravelcollective/html": "~5.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Abrachist\\Webadmin\\": "src/"
+        }
+    }
+}
