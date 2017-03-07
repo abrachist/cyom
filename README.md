@@ -1,8 +1,12 @@
-cyom is abbreviation of create your own module
+####cyom is abbreviation of create your own module
 
 ####Installation
 
-istall laravel 5.2 project first
+install laravel 5.2 project first
+
+```
+composer create-project --prefer-dist laravel/laravel "your_project_name" "5.2.*"
+```
 
 then add repository package from github to your project `composer.json`
 
