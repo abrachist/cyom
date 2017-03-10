@@ -39,19 +39,19 @@
         </span>
     @endif
   </div>
-  <div class="row">
-    <div class="col-xs-8">
+  <div class="form-group">
       <div class="checkbox icheck">
         <label>
           <input type="checkbox"> I agree to the <a href="#">terms</a>
         </label>
       </div>
-    </div>
+  </div>
     <!-- /.col -->
-    <div class="col-xs-4">
+  <div class="form-group">
       <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
-    </div>
-    <!-- /.col -->
+  </div>
+  <div class="form-group pull-right">
+    <a href="{{ url('/') }}" class="text-center">Home</a>
   </div>
 </form>
 @endsection
