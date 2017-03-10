@@ -26,7 +26,7 @@
 
     <!-- /.col -->
     <div class="form-group">
-      <button type="submit" class="btn btn-primary btn-block btn-flat">Login</button>
+      <button type="submit" class="btn btn-default btn-block btn-flat">Login</button>
     </div>
     <!-- /.col -->
     <div class="form-group pull-right">

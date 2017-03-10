@@ -48,7 +48,7 @@
   </div>
     <!-- /.col -->
   <div class="form-group">
-      <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+      <button type="submit" class="btn btn-default btn-block btn-flat">Register</button>
   </div>
   <div class="form-group pull-right">
     <a href="{{ url('/') }}" class="text-center">Home</a>
