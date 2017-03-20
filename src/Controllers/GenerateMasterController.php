@@ -10,16 +10,16 @@ use Response;
 use Session;
 use View;
 
-class ProcessController extends Controller
+class GenerateMasterController extends Controller
 {
     /**
      * Display generator.
      *
      * @return Response
      */
-    public function getGenerator()
+    public function getMaster()
     {
-        return view('generator');
+        return view('generator-master');
     }
 
     /**
@@ -27,7 +27,7 @@ class ProcessController extends Controller
      *
      * @return Response
      */
-    public function postGenerator(Request $request)
+    public function postMaster(Request $request)
     {
         $commandArg = [];
         $commandArg['name'] = $request->crud_name;
@@ -92,6 +92,6 @@ class ProcessController extends Controller
 
         Session::flash('flash_message', 'Your CRUD has been generated. See on the menu.');
 
-        return redirect('tool/generator');
+        return redirect('generator/master');
     }
 }
