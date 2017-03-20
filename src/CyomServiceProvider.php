@@ -79,7 +79,13 @@ class CyomServiceProvider extends ServiceProvider
             'Abrachist\Webadmin\Commands\GenerateModel',
             'Abrachist\Webadmin\Commands\GenerateMigration',
             'Abrachist\Webadmin\Commands\GenerateView',
-            'Abrachist\Webadmin\Commands\GenerateLanguage'
+            'Abrachist\Webadmin\Commands\GenerateLanguage',
+            'Abrachist\Webadmin\Commands\TransactionGenerator\GenerateTransactionModule',
+            'Abrachist\Webadmin\Commands\TransactionGenerator\GenerateTransactionController',
+            'Abrachist\Webadmin\Commands\TransactionGenerator\GenerateTransactionModel',
+            'Abrachist\Webadmin\Commands\TransactionGenerator\GenerateTransactionMigration',
+            'Abrachist\Webadmin\Commands\TransactionGenerator\GenerateTransactionView',
+            'Abrachist\Webadmin\Commands\TransactionGenerator\GenerateTransactionLanguage'
         );
     }
 }
