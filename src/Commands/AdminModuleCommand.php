@@ -61,12 +61,6 @@ class AdminModuleCommand extends Command
         $this->info("Migrating the database tables into your application");
         $this->call('migrate');
 
-        $this->info("Dumping the composer autoload");
-        (new Process('composer dump-autoload'))->run();
-
-        $this->info("Seeds application module table");
-        $this->call('db:seed', ['--class' => 'ModuleSeeder']);
-
         $this->info("Adding the routes");
 
         $routeFile = app_path('Http/routes.php');
@@ -84,8 +78,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('admin/roles', 'Admin\\RolesController');
     Route::resource('admin/permissions', 'Admin\\PermissionsController');
     Route::resource('admin/users', 'Admin\\UsersController');
-    Route::get('tool/generator', ['uses' => '\\Abrachist\\Webadmin\\Controllers\\ProcessController@getGenerator']);
-    Route::post('tool/generator', ['uses' => '\\Abrachist\\Webadmin\\Controllers\\ProcessController@postGenerator']);
+    Route::get('generator/master', ['uses' => '\\Abrachist\\Webadmin\\Controllers\\GenerateMasterController@getMaster']);
+    Route::post('generator/master', ['uses' => '\\Abrachist\\Webadmin\\Controllers\\GenerateMasterController@postMaster']);
+    Route::get('generator/transaction', ['uses' => '\\Abrachist\\Webadmin\\Controllers\\GenerateTransactionController@getTransaction']);
+    Route::post('generator/transaction', ['uses' => '\\Abrachist\\Webadmin\\Controllers\\GenerateTransactionController@postTransaction']);
 });
 EOD;
 
@@ -100,5 +96,11 @@ EOD;
         File::put(app_path('Http/Controllers/Auth/AuthController.php'), $contents);
 
         $this->info("Success add admin module!");
+
+        $this->info("Dumping the composer autoload");
+        (new Process('composer dump-autoload'))->run();
+
+        $this->info("Seeds application module table");
+        $this->call('db:seed', ['--class' => 'ModuleSeeder']);
     }
 }

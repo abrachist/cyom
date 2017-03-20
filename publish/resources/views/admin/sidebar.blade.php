@@ -2,7 +2,7 @@
 <div class="user-panel"></div>
 <?php 
 if(config('cyom.disable_generator')){
-    $sidebar_section =  App\Module::where('section','!=','tool')->groupBy('section')->get();
+    $sidebar_section =  App\Module::where('section','!=','generator')->groupBy('section')->get();
 } else {
     $sidebar_section =  App\Module::groupBy('section')->get();
 }

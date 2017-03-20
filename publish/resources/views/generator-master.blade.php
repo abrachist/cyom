@@ -3,10 +3,10 @@
 @section('content')
     <div class="col-md-12">
         <div class="panel panel-default">
-            <div class="panel-heading">Generator</div>
+            <div class="panel-heading">Master CRUD Generator</div>
             <div class="panel-body">
 
-                <form class="form-horizontal" method="post" action="{{ url('tool/generator') }}">
+                <form class="form-horizontal" method="post" action="{{ url('generator/master') }}">
                     {{ csrf_field() }}
 
                     <div class="form-group">
