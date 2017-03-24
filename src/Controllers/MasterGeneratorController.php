@@ -10,7 +10,7 @@ use Response;
 use Session;
 use View;
 
-class GenerateMasterController extends Controller
+class MasterGeneratorController extends Controller
 {
     /**
      * Display generator.

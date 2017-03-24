@@ -78,10 +78,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('admin/roles', 'Admin\\RolesController');
     Route::resource('admin/permissions', 'Admin\\PermissionsController');
     Route::resource('admin/users', 'Admin\\UsersController');
-    Route::get('generator/master', ['uses' => '\\Abrachist\\Webadmin\\Controllers\\GenerateMasterController@getMaster']);
-    Route::post('generator/master', ['uses' => '\\Abrachist\\Webadmin\\Controllers\\GenerateMasterController@postMaster']);
-    Route::get('generator/transaction', ['uses' => '\\Abrachist\\Webadmin\\Controllers\\GenerateTransactionController@getTransaction']);
-    Route::post('generator/transaction', ['uses' => '\\Abrachist\\Webadmin\\Controllers\\GenerateTransactionController@postTransaction']);
+    Route::get('generator/master', ['uses' => '\\Abrachist\\Webadmin\\Controllers\\MasterGeneratorController@getMaster']);
+    Route::post('generator/master', ['uses' => '\\Abrachist\\Webadmin\\Controllers\\MasterGeneratorController@postMaster']);
+    Route::get('generator/transaction', ['uses' => '\\Abrachist\\Webadmin\\Controllers\\TransactionGeneratorController@getTransaction']);
+    Route::post('generator/transaction', ['uses' => '\\Abrachist\\Webadmin\\Controllers\\TransactionGeneratorController@postTransaction']);
 });
 EOD;
 

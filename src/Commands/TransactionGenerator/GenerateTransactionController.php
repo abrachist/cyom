@@ -142,24 +142,26 @@ EOD;
 
         if ($fields_detail) {
             $x = 0;
-            $createDetailSnippet .= '$'. $crudNameSingular . ' = new ' . $modelNameDetail . ';' ."\n\t\t\t";
+            $createDetailSnippet .= '$'. $crudNameSingular . '_detail = new ' . $modelNameDetail . ';' ."\n\t\t\t";
 
             foreach ($fieldsDetailArray as $index => $item) {
                 $itemArray = explode('#', $item);
 
                 $fieldName = trim($itemArray[0]);
 
-                $createDetailSnippet .= '$'. $crudNameSingular.'->'.$fieldName. " = ". "\$requestData['".$fieldName."'][\$i];"."\n\t\t\t" ;
+                if($x > 0){
+                    $createDetailSnippet .= '$'. $crudNameSingular.'_detail->'.$fieldName. " = ". "\$requestData['".$fieldName."'][\$i];"."\n\t\t\t" ;
+                }
 
-                if($x==0){
+                if($x==1){
                     $firstFieldsDetail = trim($itemArray[0]);
                 }
 
                 $x++;
             }
 
-            $createDetailSnippet .= '$'. $crudNameSingular.'->'. $crudName .'_id = $' . $crudNameSingular . '->id;'."\n\t\t\t";
-            $createDetailSnippet .= '$'. $crudNameSingular.'->save();'."\n";
+            $createDetailSnippet .= '$'. $crudNameSingular.'_detail->'. $crudName .'_id = $' . $crudNameSingular . '->id;'."\n\t\t\t";
+            $createDetailSnippet .= '$'. $crudNameSingular.'_detail->save();'."\n";
         }
 
         return $this->replaceNamespace($stub, $name)

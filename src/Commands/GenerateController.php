@@ -131,6 +131,9 @@ EOD;
                 $fieldName = trim($itemArray[0]);
 
                 $whereSnippet .= ($index == 0) ? "where('$fieldName', 'LIKE', \"%\$keyword%\")" . "\n\t\t\t\t" : "->orWhere('$fieldName', 'LIKE', \"%\$keyword%\")" . "\n\t\t\t\t";
+                if($index == 0) {
+                    $firstColumn = $fieldName;
+                }
             }
         }
 
@@ -146,6 +149,7 @@ EOD;
             ->replacePaginationNumber($stub, $perPage)
             ->replaceFileSnippet($stub, $fileSnippet)
             ->replaceWhereSnippet($stub, $whereSnippet)
+            ->replaceFirstColumn($stub, $firstColumn)
             ->replaceClass($stub, $name);
     }
 
@@ -331,6 +335,15 @@ EOD;
     {
         $stub = str_replace(
             '{{whereSnippet}}', $whereSnippet, $stub
+        );
+
+        return $this;
+    }
+
+    protected function replaceFirstColumn(&$stub, $firstColumn)
+    {
+        $stub = str_replace(
+            '{{firstColumn}}', $firstColumn, $stub
         );
 
         return $this;

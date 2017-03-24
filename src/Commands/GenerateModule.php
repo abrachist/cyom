@@ -43,6 +43,9 @@ class GenerateModule extends Command
     /** @var string  */
     protected $controller = '';
 
+    /** @var string  */
+    protected $getList = '';
+
     /**
      * Create a new command instance.
      *
@@ -64,6 +67,7 @@ class GenerateModule extends Command
         $modelName = str_singular($name);
         $migrationName = snake_case($name);
         $tableName = $migrationName;
+        $this->getList = strtolower($modelName);
 
         $routeGroup = $this->option('route-group');
         $this->routeName = ($routeGroup) ? $routeGroup . '/' . snake_case($name, '-') : snake_case($name, '-');
@@ -143,6 +147,7 @@ class GenerateModule extends Command
        <<<EOD
 
 Route::group(['middleware' => ['auth']], function () {
+    Route::get('$this->getList/list', '$this->controller@_list');
     Route::resource('$this->routeName', '$this->controller');
 });
 EOD;

@@ -2,6 +2,7 @@
 
 namespace Abrachist\Webadmin\Commands\TransactionGenerator;
 
+use Carbon\Carbon;
 use Illuminate\Console\GeneratorCommand;
 
 class GenerateTransactionMigration extends GeneratorCommand
@@ -16,6 +17,7 @@ class GenerateTransactionMigration extends GeneratorCommand
                             {--schema= : The name of the schema.}
                             {--indexes= : The fields to add an index too.}
                             {--foreign-keys= : Foreign keys.}
+                            {--foreign-keys2= : Foreign keys on child table.}
                             {--pk=id : The name of the primary key.}';
 
     /**
@@ -86,6 +88,12 @@ class GenerateTransactionMigration extends GeneratorCommand
         $name = str_replace($this->laravel->getNamespace(), '', $name);
         $datePrefix = date('Y_m_d_His');
 
+        if (trim($this->option('foreign-keys2')) != '') {
+            $date = Carbon::now();
+            $date->addDay();
+            $datePrefix = $date->format('Y_m_d_His');
+        }
+
         return database_path('/migrations/') . $datePrefix . '_create_' . $name . '_table.php';
     }
 
@@ -104,7 +112,8 @@ class GenerateTransactionMigration extends GeneratorCommand
         $className = 'Create' . str_replace(' ', '', ucwords(str_replace('_', ' ', $tableName))) . 'Table';
 
         $fieldsToIndex = trim($this->option('indexes')) != '' ? explode(',', $this->option('indexes')) : [];
-        $foreignKeys = trim($this->option('foreign-keys')) != '' ? explode(',', $this->option('foreign-keys')) : [];
+        $foreignKeys = trim($this->option('foreign-keys')) != '' ? explode(';', $this->option('foreign-keys')) : [];
+        $foreignKeys2 = trim($this->option('foreign-keys2')) != '' ? explode(';', $this->option('foreign-keys2')) : [];
 
         $schema = rtrim($this->option('schema'), ';');
         $fields = explode(';', $schema);
@@ -206,6 +215,33 @@ class GenerateTransactionMigration extends GeneratorCommand
 
             $schemaFields .= "\$table->foreign('" . trim($parts[0]) . "')"
             . "->references('" . trim($parts[1]) . "')->on('" . trim($parts[2]) . "')";
+
+            $schemaFields .= ";\n" . $tabIndent . $tabIndent . $tabIndent;
+
+        }
+
+        // foreign keys2
+        foreach ($foreignKeys2 as $fk) {
+            $line = trim($fk);
+
+            $parts = explode('#', $line);
+
+            // if we don't have three parts, then the foreign key isn't defined properly
+            // --foreign-keys="foreign_entity_id#id#foreign_entity#onDelete#onUpdate"
+            if (count($parts) == 3) {
+                $schemaFields .= "\$table->foreign('" . trim($parts[0]) . "')"
+                . "->references('" . trim($parts[1]) . "')->on('" . trim($parts[2]) . "')";
+            } elseif (count($parts) == 4) {
+                $schemaFields .= "\$table->foreign('" . trim($parts[0]) . "')"
+                . "->references('" . trim($parts[1]) . "')->on('" . trim($parts[2]) . "')"
+                . "->onDelete('" . trim($parts[3]) . "')" . "->onUpdate('" . trim($parts[3]) . "')";
+            } elseif (count($parts) == 5) {
+                $schemaFields .= "\$table->foreign('" . trim($parts[0]) . "')"
+                . "->references('" . trim($parts[1]) . "')->on('" . trim($parts[2]) . "')"
+                . "->onDelete('" . trim($parts[3]) . "')" . "->onUpdate('" . trim($parts[4]) . "')";
+            } else {
+                continue;
+            }
 
             $schemaFields .= ";\n" . $tabIndent . $tabIndent . $tabIndent;
 

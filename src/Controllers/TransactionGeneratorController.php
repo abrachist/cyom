@@ -10,7 +10,7 @@ use Response;
 use Session;
 use View;
 
-class GenerateTransactionController extends Controller
+class TransactionGeneratorController extends Controller
 {
     /**
      * Display generator.
@@ -73,7 +73,17 @@ class GenerateTransactionController extends Controller
 
         //get child table request values
         if ($request->has('childfields')) {
+            $relationships = [];
+            $relationships[] = "detail#hasMany#App\\" . str_singular($commandArg['name']) . "Detail";
+            
+            $relationships2 = [];
+            $relationships2[] = strtolower(str_singular($commandArg['name'])) . "#belongsTo#App\\" . str_singular($commandArg['name']);
+            
+
             $fieldsArray2 = [];
+            $fieldsArray2[] = strtolower(str_singular($commandArg['name'])) . "_id". '#integer#unsigned';
+            $foreignKeys2 = [];
+            $foreignKeys2[] = strtolower(str_singular($commandArg['name'])) . "_id#id#" . snake_case($commandArg['name'])."#cascade#cascade";
             $validationsArray2 = [];
             $x = 0;
             foreach ($request->childfields as $field) {
@@ -81,18 +91,24 @@ class GenerateTransactionController extends Controller
                     $validationsArray2[] = $field;
                 }
 
-                if ($request->has('childfields_foreignkey')) {
-                    $foreignArray2 = $request->childfields_foreignkey[$x];
-                }
-
-                $fieldsArray2[] = $field . '#' . $request->childfields_type[$x] . '#' . $foreignArray2;
+                if (!empty($request->childfields_foreignkey[$x])) {
+                    $fieldsArray2[] = $request->childfields_foreignkey[$x] . "_id". '#integer#unsigned' ;
+                    $foreignKeys2[] = $request->childfields_foreignkey[$x] . "_id". "#id#" . $request->childfields_foreignkey[$x]."#cascade#cascade";
+                    $relationships2[] = $request->childfields_foreignkey[$x] . "#belongsTo#App\\" . str_singular($request->childfields_foreignkey[$x]);                    
+                } else {
+                    $fieldsArray2[] = $field . '#' . $request->childfields_type[$x];
+                }                
 
                 $x++;
             }
 
             $commandArg['--fields_detail'] = implode(";", $fieldsArray2);
+            $commandArg['--foreign-keys2'] = implode(";", $foreignKeys2);
+            $commandArg['--relationships'] = implode(";",$relationships);
+            $commandArg['--relationships2'] =  implode(";",$relationships2);
         }
 
+        
         if (!empty($validationsArray)) {
             $commandArg['--validations'] = implode("#required;", $validationsArray) . "#required";
         }

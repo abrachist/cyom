@@ -15,11 +15,14 @@ class GenerateTransactionView extends Command
     protected $signature = 'cyom:transaction-view
                             {name : The name of the Crud.}
                             {--fields= : The fields name for the form.}
+                            {--fields2= : The fields name for the child form.}
                             {--view-path= : The name of the view path.}
                             {--route-group= : Prefix of the route group.}
                             {--pk=id : The name of the primary key.}
                             {--validations= : Validation details for the fields.}
-                            {--localize=no : Localize the view? yes|no.}';
+                            {--localize=no : Localize the view? yes|no.}
+                            {--foreign-keys= : The foreign keys for the table.}
+                            {--foreign-keys2= : The foreign keys for the child table.}';
 
     /**
      * The console command description.
@@ -77,6 +80,7 @@ class GenerateTransactionView extends Command
      * @var array
      */
     protected $formFields = [];
+    protected $formFields2 = [];
 
     /**
      * Html of Form's fields.
@@ -84,6 +88,11 @@ class GenerateTransactionView extends Command
      * @var string
      */
     protected $formFieldsHtml = '';
+    protected $formFieldsHtml2 = '';
+    protected $formFieldsHtmlHeader2 = '';
+    protected $formFieldsHtmlFooter2 = '';
+    protected $formDynamicTable = '';
+    protected $formSelectFields = '';
 
     /**
      * Number of columns to show from the table. Others are hidden.
@@ -238,6 +247,90 @@ class GenerateTransactionView extends Command
             }
         }
 
+        // set child input form field and table header footer
+        $fields2 = $this->option('fields2');
+        $fieldsArray2 = explode(';', $fields2);
+        $foreignKeys2 = explode(';',$this->option('foreign-keys2'));
+        $fkey = [];
+
+        foreach ($foreignKeys2 as $value) {
+            $itemArray = explode('#', $value);
+            $fkey[] = trim($itemArray[0]);
+        }
+
+        $this->formFields2 = [];
+
+        if ($fields2) {
+            $x = 0;
+            foreach ($fieldsArray2 as $item) {
+                $itemArray = explode('#', $item);
+
+                $this->formFields2[$x]['name'] = trim($itemArray[0]);
+                $this->formFields2[$x]['type'] = trim($itemArray[1]);
+                $this->formFields2[$x]['formcontrol'] = "";
+
+                $fk = array_search(trim($itemArray[0]), $fkey);
+
+                if($fk && $x > 0) {
+                    $this->formFields2[$x]['formcontrol'] = 'select';
+                }
+
+                if($x > 0) {
+                    $this->formFieldsHtmlHeader2 .= '<th>'. camel_case(trim($itemArray[0])) . '</th> ';
+                }
+
+                if($x > 1) {
+                    $this->formFieldsHtmlFooter2 .= '<th></th> ';
+                }
+                
+                $x++;
+            }
+        }
+
+        $this->formFieldsHtmlHeader2 .= '<th></th> ';
+        $this->formFieldsHtmlFooter2 .= '<th></th> ';
+
+        $this->formFieldsHtml2 .= "' ";
+        $this->formDynamicTable .= "<tr> ";
+        $x = 0;
+        // set array add items
+        foreach ($this->formFields2 as $item) {
+            $tagOpen = '<input ';
+            $tagClose = ' />';
+            $attribute = '';
+            $id = 'id="' . $item['name'] . "-' + counter + '\" ";
+            $name = 'name="' . $item['name'] . '[]"';
+            $class = 'class="form-control"';
+
+            $tagOpenColumn = '<td> ';
+            $tagCloseColumn = ' </td>';
+            $id2 = 'id="' . $item['name'] . '-{{$counter}}"';
+            $value = 'value="{{ $detail->' . $item['name'] . '}}"';
+            $option = '';
+
+            if($item['formcontrol'] == 'select'){
+                $tagOpen = '<select ';
+                $tagClose = ' </select>';
+                $attribute = 'data-placeholder="Choose one.."';
+                $class = 'class="form-control selectize"';
+                $option = ' <option value="{{$detail->' . $item['name'] . '}}">{{$detail->'. str_replace("_id","",$item['name']) . '->id}}</option> ';
+
+                $this->formSelectFields .= "initSelectize('". $item['name'] . "-' + counter); loadSelectizeList('". $item['name'] . "-' + counter, \"{{URL::to('" . str_replace("_id","",$item['name']) . "/list')}}\" );" ;
+            }
+
+            if($x > 0){
+                $this->formFieldsHtml2 .= $tagOpen . ' ' . $id . ' ' . $name . ' ' . $class . ' ' . $attribute .  $tagClose . "', '";
+
+                $this->formDynamicTable .= $tagOpenColumn . $tagOpen . ' ' . $id2 . ' ' . $name . ' ' . $class . ' ' . $attribute . $value .  $option . $tagClose . $tagCloseColumn ;
+            }            
+
+            $x++;
+        }
+
+        $this->formFieldsHtml2 .= "<a href=\"javascript:void(0)\" class=\"remove-row btn btn-danger\"><i class=\"fa fa-trash\"></i></a> '";
+        $this->formDynamicTable .= " <td><a href=\"javascript:void(0)\" class=\"remove-row btn btn-danger\"><i class=\"fa fa-trash\"></i></a></td></tr>";
+
+        
         foreach ($this->formFields as $item) {
             $this->formFieldsHtml .= $this->createField($item);
         }
@@ -254,7 +347,7 @@ class GenerateTransactionView extends Command
                 $label = '{{ trans(\'' . $this->crudName . '.' . $field . '\') }}';
             }
             $this->formHeadingHtml .= '<th>' . $label . '</th>';
-            $this->formBodyHtml .= '<td>{{ $item->' . $field . ' }}</td>';
+            $this->formBodyHtml .= '<td>{{ $items->' . $field . ' }}</td>';
             $this->formBodyHtmlForShowView .= '<tr><th> ' . $label . ' </th><td> {{ $%%crudNameSingular%%->' . $field . ' }} </td></tr>';
 
             $i++;
@@ -356,6 +449,10 @@ class GenerateTransactionView extends Command
         File::put($newCreateFile, str_replace('%%viewName%%', $this->viewName, File::get($newCreateFile)));
         File::put($newCreateFile, str_replace('%%routeGroup%%', $this->routeGroup, File::get($newCreateFile)));
         File::put($newCreateFile, str_replace('%%viewTemplateDir%%', $viewTemplateDir, File::get($newCreateFile)));
+        File::put($newCreateFile, str_replace('%%detailContent%%', $this->formFieldsHtml2, File::get($newCreateFile)));
+        File::put($newCreateFile, str_replace('%%initAndLoadSelectize%%', $this->formSelectFields, File::get($newCreateFile)));  
+        File::put($newCreateFile, str_replace('%%fieldsHtmlHeader%%', $this->formFieldsHtmlHeader2, File::get($newCreateFile)));
+        File::put($newCreateFile, str_replace('%%fieldsHtmlFooter%%', $this->formFieldsHtmlFooter2, File::get($newCreateFile)));  
     }
 
     /**
@@ -377,6 +474,11 @@ class GenerateTransactionView extends Command
         File::put($newEditFile, str_replace('%%routeGroup%%', $this->routeGroup, File::get($newEditFile)));
         File::put($newEditFile, str_replace('%%primaryKey%%', $this->primaryKey, File::get($newEditFile)));
         File::put($newEditFile, str_replace('%%viewTemplateDir%%', $viewTemplateDir, File::get($newEditFile)));
+        File::put($newEditFile, str_replace('%%detailContent%%', $this->formFieldsHtml2, File::get($newEditFile)));
+        File::put($newEditFile, str_replace('%%initAndLoadSelectize%%', $this->formSelectFields, File::get($newEditFile)));
+        File::put($newEditFile, str_replace('%%formDynamicTable%%', $this->formDynamicTable, File::get($newEditFile)));
+        File::put($newEditFile, str_replace('%%fieldsHtmlHeader%%', $this->formFieldsHtmlHeader2, File::get($newEditFile)));
+        File::put($newEditFile, str_replace('%%fieldsHtmlFooter%%', $this->formFieldsHtmlFooter2, File::get($newEditFile)));
     }
 
     /**

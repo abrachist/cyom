@@ -22,10 +22,13 @@ class GenerateTransactionModule extends Command
                             {--controller-namespace= : Namespace of the controller.}
                             {--model-namespace= : Namespace of the model inside "app" dir.}
                             {--pk=id : The name of the primary key.}
+                            {--pk2=id : The name of the primary key child table.}
                             {--pagination=25 : The amount of models per page for index pages.}
                             {--indexes= : The fields to add an index to.}
                             {--foreign-keys= : The foreign keys for the table.}
+                            {--foreign-keys2= : The foreign keys for the child table.}
                             {--relationships= : The relationships for the model.}
+                            {--relationships2= : The relationships for the child model.}
                             {--route=yes : Include Crud route to routes.php? yes|no.}
                             {--route-group= : Prefix of the route group.}
                             {--view-path= : The name of the view path.}
@@ -64,6 +67,7 @@ class GenerateTransactionModule extends Command
     {
         $name = $this->argument('name');
         $modelName = str_singular($name);
+        $modelNameChild = str_singular($name).'Detail';
         $migrationName = snake_case($name);
         $migrationNameChild = snake_case($name).'_detail';
         $tableName = $migrationName;
@@ -84,9 +88,11 @@ class GenerateTransactionModule extends Command
         }
 
         $primaryKey = $this->option('pk');
+        $primaryKey2 = $this->option('pk2');
         $viewPath = $this->option('view-path');
 
         $foreignKeys = $this->option('foreign-keys');
+        $foreignKeys2 = $this->option('foreign-keys2');
 
         $fieldsArray = explode(';', $fields);
         $fillableArray = [];
@@ -99,23 +105,39 @@ class GenerateTransactionModule extends Command
         $commaSeparetedString = implode("', '", $fillableArray);
         $fillable = "['" . $commaSeparetedString . "']";
 
+        $fieldsArray2 = explode(';', $fields_detail);
+        $fillableArray2 = [];
+
+        foreach ($fieldsArray2 as $item) {
+            $spareParts = explode('#', trim($item));
+            $fillableArray2[] = $spareParts[0];
+        }
+
+        $commaSeparetedString2 = implode("', '", $fillableArray2);
+        $fillable2 = "['" . $commaSeparetedString2 . "']";
+        
+
         $localize = $this->option('localize');
         $locales = $this->option('locales');
 
         $indexes = $this->option('indexes');
         $relationships = $this->option('relationships');
+        $relationships2 = $this->option('relationships2');
 
         $validations = trim($this->option('validations'));
 
         $this->call('cyom:transaction-controller', ['name' => $controllerNamespace . $name . 'Controller', '--crud-name' => $name, '--model-name' => $modelName, '--model-namespace' => $modelNamespace, '--view-path' => $viewPath, '--route-group' => $routeGroup, '--pagination' => $perPage, '--fields' => $fields, '--fields_detail' => $fields_detail, '--validations' => $validations]);
 
-        //$this->call('cyom:transaction-model', ['name' => $modelNamespace . $modelName, '--fillable' => $fillable, '--table' => $tableName, '--pk' => $primaryKey, '--relationships' => $relationships]);
+        $this->call('cyom:transaction-model', ['name' => $modelNamespace . $modelName, '--fillable' => $fillable, '--table' => $tableName, '--pk' => $primaryKey, '--relationships' => $relationships]);
+
+        $this->call('cyom:transaction-model', ['name' => $modelNamespace . $modelNameChild, '--fillable' => $fillable2, '--table' => $tableNameChild, '--pk' => $primaryKey2, '--relationships' => $relationships2]);
 
         $this->call('cyom:transaction-migration', ['name' => $migrationName, '--schema' => $fields, '--pk' => $primaryKey, '--indexes' => $indexes, '--foreign-keys' => $foreignKeys]);
 
-        $this->call('cyom:transaction-migration', ['name' => $migrationNameChild, '--schema' => $fields_detail, '--pk' => $primaryKey, '--indexes' => $indexes, '--foreign-keys' => strtolower($name).'_id']);
+        $this->call('cyom:transaction-migration', ['name' => $migrationNameChild, '--schema' => $fields_detail, '--pk' => $primaryKey, '--indexes' => $indexes, '--foreign-keys2' => $foreignKeys2]);
 
-        //$this->call('cyom:transaction-view', ['name' => $name, '--fields' => $fields, '--validations' => $validations, '--view-path' => $viewPath, '--route-group' => $routeGroup, '--localize' => $localize, '--pk' => $primaryKey]);
+        $this->call('cyom:transaction-view', ['name' => $name, '--fields' => $fields, '--fields2' => $fields_detail, '--validations' => $validations, '--view-path' => $viewPath, '--route-group' => $routeGroup, '--localize' => $localize, '--pk' => $primaryKey, '--foreign-keys2' => $foreignKeys2]);
+
         if ($localize == 'yes') {
             $this->call('cyom:transaction-language', ['name' => $name, '--fields' => $fields, '--locales' => $locales]);
         }
