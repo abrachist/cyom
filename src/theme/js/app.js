@@ -59,23 +59,6 @@
         });
     }
 
-    // jquery function to load all item detail selectbox control option item use ajax on transaction edit
-    function addAllSelectizeList(id_elemen, counter, ajaxUrl) {
-        $.ajax({
-            url: ajaxUrl,
-            success: function(data) {
-                for(var i = 0; i < counter; i++){
-                    if($('#'+id_elemen+i).length != 0){
-                        var item = $('#'+id_elemen+i)[0].selectize;
-                        for(var x = 0; x < count(data.lists); x++){
-                            item.addOption({value:data.lists[x].value, text:data.lists[x].text});
-                        }
-                    }
-                }
-            }
-        });
-    }
-
     // jquery function to multiply elemen controller item detail
     function multiplyChild2operand(opr1,opr2,counter,resultOne,resultAll) {
 
