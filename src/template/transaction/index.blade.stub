@@ -3,7 +3,7 @@
 @section('content')
 <div class="col-md-12">
     <div class="panel panel-default">
-        <div class="panel-heading">%%crudNameCap%%</div>
+        <div class="panel-heading"><strong>%%crudNameCap%%</strong></div>
         <div class="panel-body">
             {!! Form::open(['method' => 'GET', 'url' => '/%%routeGroup%%%%viewName%%', 'class' => 'navbar-form navbar-right', 'role' => 'search'])  !!}
             <div class="input-group">
@@ -26,24 +26,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach($%%crudName%% as $item)
+                    @foreach($%%crudName%% as $items)
                         <tr>
-                            <td>{{ $item->id }}</td>
+                            <td>{{ $items->id }}</td>
                             %%formBodyHtml%%
                             <td>
-                                <a href="{{ url('/%%routeGroup%%%%viewName%%/' . $item->%%primaryKey%%) }}" title="View %%modelName%%"><button class="btn btn-info btn-xs"><i class="fa fa-file-text-o" aria-hidden="true"></i> View</button></a>
-                                <a href="{{ url('/%%routeGroup%%%%viewName%%/' . $item->%%primaryKey%% . '/edit') }}" title="Edit %%modelName%%"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
+                                <a href="{{ url('/%%routeGroup%%%%viewName%%/' . $items->%%primaryKey%%) }}" title="View %%modelName%%"><button class="btn btn-info btn-xs"><i class="fa fa-file-text-o" aria-hidden="true"></i> View</button></a>
+                                <a href="{{ url('/%%routeGroup%%%%viewName%%/' . $items->%%primaryKey%% . '/edit') }}" title="Edit %%modelName%%"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
                                 {!! Form::open([
                                     'method'=>'DELETE',
-                                    'url' => ['/%%routeGroup%%%%viewName%%', $item->%%primaryKey%%],
+                                    'url' => ['/%%routeGroup%%%%viewName%%', $items->%%primaryKey%%],
                                     'style' => 'display:inline'
                                 ]) !!}
-                                    {!! Form::button('<i class="fa fa-trash-o" aria-hidden="true"></i> Delete', array(
-                                            'type' => 'submit',
-                                            'class' => 'btn btn-danger btn-xs',
-                                            'title' => 'Delete %%modelName%%',
-                                            'onclick'=>'return confirm("Confirm delete?")'
-                                    )) !!}
+                                
+                                {!! Form::button('<i class="fa fa-trash-o" aria-hidden="true"></i> Delete', array(
+                                        'type' => 'submit',
+                                        'class' => 'btn btn-danger btn-xs',
+                                        'title' => 'Delete %%modelName%%',
+                                        'onclick'=>'return confirm("Confirm delete?")'
+                                )) !!}
                                 {!! Form::close() !!}
                             </td>
                         </tr>

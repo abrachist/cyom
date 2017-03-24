@@ -28,6 +28,8 @@
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')}}">
 
+  <link rel="stylesheet" href="{{asset('assets/selectize/css/selectize.bootstrap3.css')}}">
+
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -160,6 +162,7 @@
 </script>
 <!-- Bootstrap 3.3.6 -->
 <script src="{{asset('assets/bootstrap/js/bootstrap.min.js')}}"></script>
+<script src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
 <!-- Sparkline -->
 <script src="{{asset('assets/plugins/sparkline/jquery.sparkline.min.js')}}"></script>
 <!-- jvectormap -->
@@ -180,8 +183,9 @@
 <script src="{{asset('assets/plugins/fastclick/fastclick.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('assets/dist/js/app.min.js')}}"></script>
+<script src="{{asset('assets/selectize/js/standalone/selectize.min.js')}}"></script>
 
-<!-- Jquery logic for sidebar treeview active -->
+<!-- Jquery logic for sidebar carret active -->
 <script>
     var url = {!! json_encode(\Request::url()) !!}; 
     var path = {!! json_encode(\Request::path()) !!};
@@ -190,6 +194,8 @@
     $('ul.sidebar-menu li.'+ treeview).addClass('active');
     $('ul.treeview-menu li a[href*="'+ prefix[0]+'/'+prefix[1] +'"]').parent().addClass('active'); 
 </script>
+
+<script src="{{asset('js/app.js')}}"></script>
 
 @yield('scripts')
 

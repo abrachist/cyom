@@ -3,7 +3,7 @@
 @section('content')
             <div class="col-md-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Create New %%modelName%%</div>
+                    <div class="panel-heading"><strong>Create New %%modelName%% </strong><a href="{{ url('/%%routeGroup%%%%viewName%%') }}" title="Back" class="pull-right"><i class="fa fa-reply" aria-hidden="true"></i> Back</a></div>
                     <div class="panel-body">
                         @if ($errors->any())
                             <ul class="alert alert-danger">
@@ -17,11 +17,64 @@
 
                         @include ('%%viewTemplateDir%%.form')
 
+                        <div class="form-group">
+                            <div class="col-md-12">
+                            <div class="table-responsive"> 
+                                <table id="detail-datatable" class="table table-borderless">
+                                    <thead> 
+                                        <tr>
+                                            %%fieldsHtmlHeader%%
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-content"> 
+                                        <?php $counter=0; ?>
+                                        
+                                    </tbody>
+                                    <tfoot> 
+                                        <tr>
+                                            <td>
+                                                <input type="button" id="addItemRow" class="btn btn-primary" value="Add Item" onclick="addItem()">
+                                            </td>
+                                            %%fieldsHtmlFooter%%
+                                        </tr>
+                                    </tfoot>
+                                </table> 
+                            </div>
+                            </div>
+                        </div>
+
                         {!! Form::close() !!}
-                    </div>
-                    <div class="panel-footer">
-                        <a href="{{ url('/%%routeGroup%%%%viewName%%') }}" title="Back"><button class="btn btn-info"><i class="fa fa-reply" aria-hidden="true"></i> Back</button></a>
                     </div>
                 </div>
             </div>
-@endsection
+@stop
+@section('scripts')
+<style>
+    tbody.table-content:after {
+        content: '';
+        display: block;
+        height: 60px;
+    }
+</style>
+<script>
+var counter;
+{{$counter}} > 0 ? counter = {{$counter}}  : counter = 0;
+
+var item_table = initDataTable('detail-datatable');
+
+$('#detail-datatable tbody').on('click', '.remove-row', function () {
+    item_table.row($(this).parents('tr')).remove().draw();
+});
+ 
+function addItem() {
+    item_table.row.add([
+        %%detailContent%%
+    ]).draw(false);
+
+    %%initAndLoadSelectize%%
+
+    counter++;
+}
+
+</script>
+@stop

@@ -124,4 +124,18 @@ class DummyClass extends Controller
 
         return redirect('{{routeGroup}}{{viewName}}');
     }
+
+    public function _list()
+    {
+        $items = {{modelName}}::all();
+        $list_item = [];
+        foreach ($items as $item) {
+            array_push($list_item, ['text' => $item->{{firstColumn}}, 'value' => $item->id]);
+        }
+
+        $response = array(
+            'lists' => $list_item
+        );
+        return response()->json($response);
+    }
 }
