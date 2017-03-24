@@ -87,5 +87,7 @@ function addItem() {
     counter++;
 }
 
+%%formEditLoadDetail%%
+
 </script>
 @stop

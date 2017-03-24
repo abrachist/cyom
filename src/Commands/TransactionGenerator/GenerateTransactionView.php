@@ -93,6 +93,8 @@ class GenerateTransactionView extends Command
     protected $formFieldsHtmlFooter2 = '';
     protected $formDynamicTable = '';
     protected $formSelectFields = '';
+    protected $formEditLoadDetail = '';
+
 
     /**
      * Number of columns to show from the table. Others are hidden.
@@ -316,6 +318,8 @@ class GenerateTransactionView extends Command
                 $option = ' <option value="{{$detail->' . $item['name'] . '}}">{{$detail->'. str_replace("_id","",$item['name']) . '->id}}</option> ';
 
                 $this->formSelectFields .= "initSelectize('". $item['name'] . "-' + counter); loadSelectizeList('". $item['name'] . "-' + counter, \"{{URL::to('" . str_replace("_id","",$item['name']) . "/list')}}\" );" ;
+
+                $this->formEditLoadDetail .= "loadAllSelectizeList('". $item['name'] . "-', counter, \"{{URL::to('" . str_replace("_id","",$item['name']) . "/list')}}\" );" ;
             }
 
             if($x > 0){
@@ -479,6 +483,8 @@ class GenerateTransactionView extends Command
         File::put($newEditFile, str_replace('%%formDynamicTable%%', $this->formDynamicTable, File::get($newEditFile)));
         File::put($newEditFile, str_replace('%%fieldsHtmlHeader%%', $this->formFieldsHtmlHeader2, File::get($newEditFile)));
         File::put($newEditFile, str_replace('%%fieldsHtmlFooter%%', $this->formFieldsHtmlFooter2, File::get($newEditFile)));
+        File::put($newEditFile, str_replace('%%formEditLoadDetail%%', $this->formEditLoadDetail, File::get($newEditFile)));
+
     }
 
     /**
