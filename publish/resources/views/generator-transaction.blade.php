@@ -75,8 +75,8 @@
                                 <option value="float">float</option>
                             </select>
                             <select name="fields_required[]" class="form-control">
-                                    <option value="0">Required</option>
-                                    <option value="1">Not required</option>
+                                    <option value="0">Not Required</option>
+                                    <option value="1">Required</option>
                                 </select>
                             <button class="btn btn-success btn-add inline" type="button">
                                 <span class="glyphicon glyphicon-plus"></span>
@@ -115,13 +115,13 @@
                                 <option value="float">float</option>
                             </select>
                             <select name="childfields_required[]" class="form-control">
-                                    <option value="0">Required</option>
-                                    <option value="1">Not required</option>
+                                    <option value="0">Not Required</option>
+                                    <option value="1">Required</option>
                             </select>
                             <select name="childfields_foreignkey[]" class="form-control">
-                                    <option value="">- choose model class -</option>
+                                    <option value=""> - choose model class - </option>
                                     @foreach($out as $models)
-                                        <option value="{{$models}}">{{$models}}</option>
+                                        <option value="{{snake_case($models)}}">{{$models}}</option>
                                     @endforeach
                             </select>
                             <button class="btn btn-success btn-add2 inline" type="button">
