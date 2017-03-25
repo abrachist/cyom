@@ -46,6 +46,9 @@
                     <div class="form-group table-fields">
                         <h4 class="text-center">Table Fields:</h4><br>
                         <div class="entry col-md-10 col-md-offset-2 form-inline">
+                            <button class="btn btn-success btn-add inline" type="button">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
                             <input class="form-control" name="fields[]" type="text" placeholder="field_name" required="true">
                             <select name="fields_type[]" class="form-control">
                                 <option value="string">string</option>
@@ -77,17 +80,14 @@
                             <select name="fields_required[]" class="form-control">
                                     <option value="0">Not Required</option>
                                     <option value="1">Required</option>
-                                </select>
-                            <button class="btn btn-success btn-add inline" type="button">
-                                <span class="glyphicon glyphicon-plus"></span>
-                            </button>
+                            </select>
                         </div>
                     </div>
-                    <p class="help text-center">It will automatically assume form fields based on the migration field type.</p>
+                    
                     <br>
                     <div class="form-group">
                         <div class="col-md-offset-4 col-md-4">
-                            <button type="submit" class="btn btn-primary" name="generate">Generate</button>
+                            <button type="submit" class="btn btn-primary pull-right" name="generate">Generate</button>
                         </div>
                     </div>
                 </form>

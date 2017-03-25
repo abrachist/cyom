@@ -46,6 +46,9 @@
                     <div class="form-group table-fields">
                         <h4 class="text-center">Parent Table Fields:</h4><br>
                         <div class="entry col-md-10 col-md-offset-2 form-inline">
+                            <button class="btn btn-success btn-add inline" type="button">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
                             <input class="form-control" name="fields[]" type="text" placeholder="field_name" required="true">
                             <select name="fields_type[]" class="form-control">
                                 <option value="string">string</option>
@@ -78,14 +81,21 @@
                                     <option value="0">Not Required</option>
                                     <option value="1">Required</option>
                                 </select>
-                            <button class="btn btn-success btn-add inline" type="button">
-                                <span class="glyphicon glyphicon-plus"></span>
-                            </button>
+                            
                         </div>
                     </div>
                     <div class="form-group table-fields2">
                         <h4 class="text-center">Child Table Fields:</h4><br>
                         <div class="entry col-md-10 col-md-offset-2 form-inline">
+                            <button class="btn btn-success btn-add2 inline" type="button">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                            <select name="childfields_foreignkey[]" class="form-control">
+                                    <option value=""> - choose foreign table - </option>
+                                    @foreach($out as $models)
+                                        <option value="{{snake_case($models)}}">{{$models}}</option>
+                                    @endforeach
+                            </select>
                             <input class="form-control" name="childfields[]" type="text" placeholder="field_name" required="true">
                             <select name="childfields_type[]" class="form-control">
                                 <option value="string">string</option>
@@ -118,22 +128,13 @@
                                     <option value="0">Not Required</option>
                                     <option value="1">Required</option>
                             </select>
-                            <select name="childfields_foreignkey[]" class="form-control">
-                                    <option value=""> - choose model class - </option>
-                                    @foreach($out as $models)
-                                        <option value="{{snake_case($models)}}">{{$models}}</option>
-                                    @endforeach
-                            </select>
-                            <button class="btn btn-success btn-add2 inline" type="button">
-                                <span class="glyphicon glyphicon-plus"></span>
-                            </button>
                         </div>
                     </div>
 
                     <br>
                     <div class="form-group">
                         <div class="col-md-offset-4 col-md-4">
-                            <button type="submit" class="btn btn-primary" name="generate">Generate</button>
+                            <button type="submit" class="btn btn-primary pull-right" name="generate">Generate</button>
                         </div>
                     </div>
                 </form>
