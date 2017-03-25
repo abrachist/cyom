@@ -315,7 +315,7 @@ class GenerateTransactionView extends Command
                 $tagClose = ' </select>';
                 $attribute = 'data-placeholder="Choose one.."';
                 $class = 'class="form-control selectize"';
-                $option = ' <option value="{{$detail->' . $item['name'] . '}}">{{$detail->'. str_replace("_id","",$item['name']) . '->id}}</option> ';
+                $option = ' ><option value="{{$detail->' . $item['name'] . '}}"><?php $column = $detail->'. str_replace("_id","",$item['name']) . '->getTableColumns(); ?> {{$detail->'. str_replace("_id","",$item['name']) . '->$column}}</option> ';
 
                 $this->formSelectFields .= "initSelectize('". $item['name'] . "-' + counter); loadSelectizeList('". $item['name'] . "-' + counter, \"{{URL::to('" . str_replace("_id","",$item['name']) . "/list')}}\" );" ;
 

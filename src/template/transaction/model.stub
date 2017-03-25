@@ -23,4 +23,9 @@ class DummyClass extends Model
     protected $fillable = {{fillable}};
 
     {{relationships}}
+
+    public function getTableColumns() {
+            $column = $this->getConnection()->getSchemaBuilder()->getColumnListing($this->getTable());
+            return $column[1];
+    }
 }

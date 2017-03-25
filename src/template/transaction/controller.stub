@@ -116,6 +116,8 @@ class DummyClass extends Controller
         ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
         ${{crudNameSingular}}->update($requestData);
 
+        {{modelNameDetail}}::where('{{crudName}}_id',$id)->delete();
+
         for($i=0 ; $i < count($requestData['{{firstFieldsDetail}}']) ; $i++) {
             {{detailSnippet}}
         }
