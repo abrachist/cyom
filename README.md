@@ -1,6 +1,6 @@
-####cyom is abbreviation of create your own module
+##cyom is abbreviation of create your own module
 
-####Installation
+###Installation
 
 install laravel 5.2 project first
 
@@ -59,6 +59,14 @@ and the last thing install cyom package
 
 ```
 php artisan cyom:install
+```
+
+if there is an error/problem about data seeder after installation, do this step to resolve the problem
+
+```
+composer dumpautoload
+
+php artisan db:seed --class="ModuleSeeder"
 ```
 
 Enjoy !!!
