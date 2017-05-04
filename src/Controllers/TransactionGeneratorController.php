@@ -72,7 +72,7 @@ class TransactionGeneratorController extends Controller
         }
 
         //get child table request values
-        if ($request->has('childfields')) {
+        if ($request->input('type') !== "Master") {
             $relationships = [];
             $relationships[] = "detail#hasMany#App\\" . str_singular($commandArg['name']) . "Detail";
             
@@ -138,7 +138,11 @@ class TransactionGeneratorController extends Controller
         }
 
         try {
-            Artisan::call('cyom:generate-transaction', $commandArg);
+            if ($request->input('type') == "Master") {
+                Artisan::call('cyom:generate', $commandArg);
+            } else {
+                Artisan::call('cyom:generate-transaction', $commandArg);
+            }
 
             $name = camel_case($commandArg['name']);
             $routeName = ($commandArg['--route-group']) ? $commandArg['--route-group'] . '/' . snake_case($name, '-') : snake_case($name, '-');
