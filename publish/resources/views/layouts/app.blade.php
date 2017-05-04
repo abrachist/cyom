@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>{{env('APP_NAME', 'WEB APPLICATION')}}</title>
+  <title>{{ strtoupper(config('cyom.company'))}}</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -46,7 +46,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b><i class="fa fa-gg-circle fa-lg"> </i></b></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><i class="fa fa-gg-circle fa-lg"> </i>{{env('COMPANY_NAME', ' YOUR COMPANY')}}</span>
+      <span class="logo-lg"><i class="fa fa-gg-circle fa-lg"> </i>&nbsp;{{strtoupper(config('cyom.company'))}}</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -82,7 +82,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b><i class="fa fa-gg-circle fa-lg"> </i></b></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><i class="fa fa-gg-circle fa-lg"> </i>{{env('COMPANY_NAME', ' YOUR COMPANY')}}</span>
+      <span class="logo-lg"><i class="fa fa-gg-circle fa-lg"> </i>&nbsp;{{strtoupper(config('cyom.company'))}}</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -144,7 +144,7 @@
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="hidden-xs">
-      <center><strong><a href="{{ url('/') }}">{{env('COMPANY_NAME', ' YOUR COMPANY')}}</a> 2017</strong></center>
+      <center><strong><a href="{{ url('/') }}">&nbsp;{{strtoupper(config('cyom.company'))}}</a> {{config('cyom.publish')}}</strong></center>
     </div>     
   </footer>
 </div>
