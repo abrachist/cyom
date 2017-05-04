@@ -160,7 +160,7 @@ EOD;
                 $x++;
             }
 
-            $createDetailSnippet .= '$'. $crudNameSingular.'_detail->'. $crudName .'_id = $' . $crudNameSingular . '->id;'."\n\t\t\t";
+            $createDetailSnippet .= '$'. $crudName.'_detail->'. $crudName .'_id = $' . $crudNameSingular . '->id;'."\n\t\t\t";
             $createDetailSnippet .= '$'. $crudNameSingular.'_detail->save();'."\n";
         }
 
