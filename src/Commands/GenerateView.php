@@ -305,6 +305,15 @@ class GenerateView extends Command
             $this->templateShowVars($newShowFile);
         }
 
+        // For _modal.blade.php file
+        $showFile = $this->viewDirectoryPath . '_modal.blade.stub';
+        $newShowFile = $path . '_modal.blade.php';
+        if (!File::copy($showFile, $newShowFile)) {
+            echo "failed to copy $showFile...\n";
+        } else {
+            $this->templateShowVars($newShowFile);
+        }
+
         $this->info('View created successfully.');
     }
 
