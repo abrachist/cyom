@@ -2,6 +2,11 @@
 
 return [
 
+    'company' => 'your company',
+
+    'publish' => '2017',
+
+
     //flag using custom template
     'custom_template' => false,
 
