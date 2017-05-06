@@ -1,6 +1,6 @@
             <div class="modal-dialog">
                 <div class="panel panel-default">
-                    <div class="panel-heading"><strong>Create New %%modelName%%</strong><a href="#" title="Back" class="pull-right"><i class="fa fa-reply" aria-hidden="true" data-dismiss="modal"></i> Back</a></div>
+                    <div class="panel-heading"><strong>Create New %%modelName%%</strong><a href="#" title="Back" class="pull-right" data-dismiss="modal"><i class="fa fa-reply" aria-hidden="true" ></i> Back</a></div>
                     <div class="panel-body">
                         @if ($errors->any())
                             <ul class="alert alert-danger">

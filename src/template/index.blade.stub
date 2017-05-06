@@ -31,9 +31,9 @@
                             <td>{{ $loopItem->%%primaryKey%% }}</td>
                             %%formBodyHtml%%
                             <td>
-                                <a href="javascript:void(0)" title="View %%modelName%%"><button class="btn btn-info btn-xs"><i class="fa fa-file-text-o" aria-hidden="true" onclick="loadModal({{ $loopItem->%%primaryKey%% }}, 'show')"></i> View</button></a>
+                                <a href="javascript:void(0)" title="View %%modelName%%" onclick="loadModal({{ $loopItem->%%primaryKey%% }}, 'show')"><button class="btn btn-info btn-xs" ><i class="fa fa-file-text-o" aria-hidden="true" ></i> </button></a>
                                 
-                                <a href="javascript:void(0)" title="Edit %%modelName%%"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o" aria-hidden="true" onclick="loadModal({{ $loopItem->%%primaryKey%% }}, 'edit')"></i> Edit</button></a>
+                                <a href="javascript:void(0)" title="Edit %%modelName%%" onclick="loadModal({{ $loopItem->%%primaryKey%% }}, 'edit')"><button class="btn btn-primary btn-xs" ><i class="fa fa-pencil-square-o" aria-hidden="true" ></i> </button></a>
                                 
                                 {!! Form::open([
                                     'method'=>'DELETE',
