@@ -174,6 +174,13 @@ class GenerateTransactionView extends Command
     protected $formBodyHtmlForShowView = '';
 
     /**
+     * modal view path.
+     *
+     * @var string
+     */
+    protected $viewModal = '';
+
+    /**
      * Create a new command instance.
      *
      * @return void
@@ -210,8 +217,10 @@ class GenerateTransactionView extends Command
         if ($this->option('view-path')) {
             $this->userViewPath = $this->option('view-path');
             $path = $viewDirectory . $this->userViewPath . '/' . $this->viewName . '/';
+            $this->viewModal = $this->userViewPath . '.' . $this->viewName . '.';
         } else {
             $path = $viewDirectory . $this->viewName . '/';
+            $this->viewModal = $this->viewName . '.';
         }
 
         if (!File::isDirectory($path)) {
@@ -315,7 +324,7 @@ class GenerateTransactionView extends Command
                 $tagClose = ' </select>';
                 $attribute = 'data-placeholder="Choose one.."';
                 $class = 'class="form-control selectize"';
-                $option = ' ><option value="{{$detail->' . $item['name'] . '}}"><?php $column = $detail->'. str_replace("_id","",$item['name']) . '->getTableColumns(); ?> {{$detail->'. str_replace("_id","",$item['name']) . '->$column}}</option> ';
+                $option = ' ><option value="{{$detail->' . $item['name'] . '}}"><?php $column = $detail->'. str_replace("_id","",$item['name']) . '->getTableColumns(); $column = $column[1]; ?> {{$detail->'. str_replace("_id","",$item['name']) . '->$column}}</option> ';
 
                 $this->formSelectFields .= "initSelectize('". $item['name'] . "-' + counter); loadSelectizeList('". $item['name'] . "-' + counter, \"{{URL::to('" . str_replace("_id","",$item['name']) . "/list')}}\" );" ;
 
@@ -351,7 +360,7 @@ class GenerateTransactionView extends Command
                 $label = '{{ trans(\'' . $this->crudName . '.' . $field . '\') }}';
             }
             $this->formHeadingHtml .= '<th>' . $label . '</th>';
-            $this->formBodyHtml .= '<td>{{ $items->' . $field . ' }}</td>';
+            $this->formBodyHtml .= '<td>{{ $loopItem->' . $field . ' }}</td>';
             $this->formBodyHtmlForShowView .= '<tr><th> ' . $label . ' </th><td> {{ $%%crudNameSingular%%->' . $field . ' }} </td></tr>';
 
             $i++;
@@ -403,12 +412,12 @@ class GenerateTransactionView extends Command
         }
 
         // For _modal.blade.php file
-        $showFile = $this->viewDirectoryPath . '_modal.blade.stub';
-        $newShowFile = $path . '_modal.blade.php';
-        if (!File::copy($showFile, $newShowFile)) {
-            echo "failed to copy $showFile...\n";
+        $modalFile = $this->viewDirectoryPath . '_modal.blade.stub';
+        $newModalFile = $path . '_modal.blade.php';
+        if (!File::copy($modalFile, $newModalFile)) {
+            echo "failed to copy $modalFile...\n";
         } else {
-            $this->templateShowVars($newShowFile);
+            $this->templateIndexVars($newModalFile);
         }
 
         $this->info('View created successfully.');
@@ -431,6 +440,7 @@ class GenerateTransactionView extends Command
         File::put($newIndexFile, str_replace('%%viewName%%', $this->viewName, File::get($newIndexFile)));
         File::put($newIndexFile, str_replace('%%routeGroup%%', $this->routeGroup, File::get($newIndexFile)));
         File::put($newIndexFile, str_replace('%%primaryKey%%', $this->primaryKey, File::get($newIndexFile)));
+        File::put($newIndexFile, str_replace('%%modal%%', $this->viewModal . '_modal', File::get($newIndexFile)));
     }
 
     /**

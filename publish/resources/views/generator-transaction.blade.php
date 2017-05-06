@@ -3,7 +3,7 @@
 @section('content')
     <div class="col-md-12">
         <div class="panel panel-default">
-            <div class="panel-heading">Transaction CRUD Generator</div>
+            <div class="panel-heading">CRUD Generator</div>
             <div class="panel-body">
 
                 <form class="form-horizontal" method="post" action="{{ url('generator/transaction') }}">

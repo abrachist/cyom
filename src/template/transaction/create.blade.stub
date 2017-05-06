@@ -1,9 +1,6 @@
-@extends('layouts.app')
-
-@section('content')
-            <div class="col-md-12">
+            <div class="modal-dialog">
                 <div class="panel panel-default">
-                    <div class="panel-heading"><strong>Create New %%modelName%% </strong><a href="{{ url('/%%routeGroup%%%%viewName%%') }}" title="Back" class="pull-right"><i class="fa fa-reply" aria-hidden="true"></i> Back</a></div>
+                    <div class="panel-heading"><strong>Create New %%modelName%% </strong><a href="#" title="Back" class="pull-right"><i class="fa fa-reply" aria-hidden="true" data-dismiss="modal"></i> Back</a></div>
                     <div class="panel-body">
                         @if ($errors->any())
                             <ul class="alert alert-danger">
@@ -47,8 +44,7 @@
                     </div>
                 </div>
             </div>
-@stop
-@section('scripts')
+
 <style>
     tbody.table-content:after {
         content: '';
@@ -77,4 +73,3 @@ function addItem() {
 }
 
 </script>
-@stop

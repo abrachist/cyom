@@ -26,20 +26,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach($%%crudName%% as $items)
+                    @foreach($%%crudName%% as $loopItem)
                         <tr>
-                            <td>{{ $items->id }}</td>
+                            <td>{{ $loopItem->%%primaryKey%% }}</td>
                             %%formBodyHtml%%
                             <td>
-                                <a href="{{ url('/%%routeGroup%%%%viewName%%/' . $items->%%primaryKey%%) }}" title="View %%modelName%%"><button class="btn btn-info btn-xs"><i class="fa fa-file-text-o" aria-hidden="true"></i> View</button></a>
-                                <a href="{{ url('/%%routeGroup%%%%viewName%%/' . $items->%%primaryKey%% . '/edit') }}" title="Edit %%modelName%%"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
+                                <a href="javascript:void(0)" title="View %%modelName%%"><button class="btn btn-info btn-xs"><i class="fa fa-file-text-o" aria-hidden="true" onclick="loadModal({{ $loopItem->%%primaryKey%% }}, 'show')"></i> </button></a>
+                                
+                                <a href="javascript:void(0)" title="Edit %%modelName%%"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o" aria-hidden="true" onclick="loadModal({{ $loopItem->%%primaryKey%% }}, 'edit')"></i> </button></a>
+                                
                                 {!! Form::open([
                                     'method'=>'DELETE',
-                                    'url' => ['/%%routeGroup%%%%viewName%%', $items->%%primaryKey%%],
+                                    'url' => ['/%%routeGroup%%%%viewName%%', $loopItem->%%primaryKey%%],
                                     'style' => 'display:inline'
                                 ]) !!}
                                 
-                                {!! Form::button('<i class="fa fa-trash-o" aria-hidden="true"></i> Delete', array(
+                                {!! Form::button('<i class="fa fa-trash-o" aria-hidden="true"></i> ', array(
                                         'type' => 'submit',
                                         'class' => 'btn btn-danger btn-xs',
                                         'title' => 'Delete %%modelName%%',
@@ -55,10 +57,38 @@
             </div>
         </div>
         <div class="panel-footer">
-            <a href="{{ url('/%%routeGroup%%%%viewName%%/create') }}" class="btn btn-primary" title="Add New %%modelName%%">
+            <a href="javascript:void(0)" class="btn btn-primary" title="Add New %%modelName%%" onclick="loadModal('', 'create')">
                 Create New
             </a>
         </div
     </div>
 </div>
-@endsection
+@include('%%modal%%') 
+@stop
+
+@section('scripts')
+<script>
+function loadModal(id, action) {
+    var url, method = 'get';
+    if(action == 'create') {
+        url = '{{url("%%routeGroup%%%%viewName%%/create")}}';
+    } else if (action == 'show') {
+        url = '{{url("%%routeGroup%%%%viewName%%")}}'+'/'+id;
+    } else if (action == 'edit') {
+        url = '{{url("%%routeGroup%%%%viewName%%")}}'+'/'+id+'/edit';
+    } else {
+        url = '{{url("%%routeGroup%%%%viewName%%")}}'+'/'+id+'/delete';
+        method = 'post'
+    }
+
+    $.ajax({
+        url: url,
+        method: method,
+        success: function(data) {
+            $("#show").modal();
+            $("#show").html(data);
+        }
+    });
+}
+</script>
+@stop
