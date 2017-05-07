@@ -73,12 +73,12 @@ php artisan db:seed --class="ModuleSeeder"
 
 Enjoy !!!
 
-```
+
 ![01](https://cloud.githubusercontent.com/assets/15207347/25777802/654771e4-3313-11e7-900d-18c8da50ce6b.gif)
 ![02](https://cloud.githubusercontent.com/assets/15207347/25777807/8c657ac8-3313-11e7-8f51-ea59766a1dd1.gif)
 ![03](https://cloud.githubusercontent.com/assets/15207347/25777809/9b5eac70-3313-11e7-80a2-da517b8ab840.gif)
 ![04](https://cloud.githubusercontent.com/assets/15207347/25777810/a780fff8-3313-11e7-99d8-0dcaa9fd2403.gif)
-```
+
 
 
 
