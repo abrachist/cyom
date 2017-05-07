@@ -1,5 +1,7 @@
 ##cyom is abbreviation of create your own module
 
+a crud generator module for laravel
+
 ###Installation
 
 install laravel 5.2 project first
@@ -70,6 +72,13 @@ php artisan db:seed --class="ModuleSeeder"
 ```
 
 Enjoy !!!
+
+```
+![Generate Master CRUD](readme/01.gif)
+![Result Master](readme/02.gif)
+![Generate Transaction CRUD](readme/03.gif)
+![Result Transaction](readme/04.gif)
+```
 
 
 
