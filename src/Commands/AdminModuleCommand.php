@@ -73,13 +73,13 @@ class AdminModuleCommand extends Command
             <<<EOD
 Route::group(['middleware' => ['auth']], function () {
     Route::get('admin', 'Admin\\AdminController@index');
+    Route::get('admin/authorization', 'Admin\AdminController@authorization');
     Route::get('admin/give-role-permissions', 'Admin\\AdminController@getGiveRolePermissions');
     Route::post('admin/give-role-permissions', 'Admin\\AdminController@postGiveRolePermissions');
     Route::resource('admin/roles', 'Admin\\RolesController');
     Route::resource('admin/permissions', 'Admin\\PermissionsController');
     Route::resource('admin/users', 'Admin\\UsersController');
-    Route::get('generator/master', ['uses' => '\\Abrachist\\Webadmin\\Controllers\\MasterGeneratorController@getMaster']);
-    Route::post('generator/master', ['uses' => '\\Abrachist\\Webadmin\\Controllers\\MasterGeneratorController@postMaster']);
+    
     Route::get('generator/transaction', ['uses' => '\\Abrachist\\Webadmin\\Controllers\\TransactionGeneratorController@getTransaction']);
     Route::post('generator/transaction', ['uses' => '\\Abrachist\\Webadmin\\Controllers\\TransactionGeneratorController@postTransaction']);
 });

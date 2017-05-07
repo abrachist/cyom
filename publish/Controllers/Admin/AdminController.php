@@ -21,6 +21,16 @@ class AdminController extends Controller
     }
 
     /**
+     * Display a list authorization menu.
+     *
+     * @return void
+     */
+    public function authorization()
+    {
+        return view('admin.auth-menu');
+    }
+
+    /**
      * Display given permissions to role.
      *
      * @return void

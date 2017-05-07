@@ -1,15 +1,10 @@
 <!-- Sidebar user panel (optional) -->
 <div class="user-panel"></div>
-<?php 
-if(config('cyom.disable_generator')){
-    $sidebar_section =  App\Module::where('section','!=','generator')->groupBy('section')->get();
-} else {
-    $sidebar_section =  App\Module::groupBy('section')->get();
-}
-?>
+<?php $sidebar_section =  App\Module::where('section','=','modules')->groupBy('section')->get(); ?>
 
-@foreach($sidebar_section as $section)
-<ul class="sidebar-menu">   
+<ul class="sidebar-menu"> 
+    <li class="treeview"><a href="{{ url('home') }}"><i class="fa fa-check-square-o"></i> <span> Dashboard</span></a></li>
+    @foreach($sidebar_section as $section)
     <li class="treeview {{ $section->section }}"><a href="#"><i class="fa fa-check-square-o"></i> <span>{{ ucwords($section->section) }}</span>
         <i class="fa fa-angle-left pull-right"></i></a>
         <?php $sidebar_section =  App\Module::where('section', $section->section)->active()->get(); ?>
@@ -23,8 +18,8 @@ if(config('cyom.disable_generator')){
             </ul>
         @endforeach
     </li>
-</ul>       
-@endforeach
+    @endforeach
+</ul> 
     
   
     

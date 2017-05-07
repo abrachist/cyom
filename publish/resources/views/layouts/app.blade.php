@@ -111,8 +111,14 @@
               <li class="user-body"> </li>
               <!-- Menu Footer-->
               <li class="user-footer">
+                  @if(!config('cyom.disable_generator'))
+                  <div class="pull-left">
+                      <a href="{!! url('admin/authorization') !!}"><i class="fa fa-check-square-o fa-lg" aria-hidden="true"></i> Auth </a>&nbsp;
+                      <a href="{!! url('generator/transaction') !!}"><i class="fa fa-cog fa-lg" aria-hidden="true"></i> Tools </a>
+                  </div>
+                  @endif
                 <div class="pull-right">
-                  <a href="{!! url('logout') !!}" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="{!! url('logout') !!}"><i class="fa fa-sign-out fa-lg" aria-hidden="true"></i> Sign Out</a>
                 </div>
               </li>
             </ul>
