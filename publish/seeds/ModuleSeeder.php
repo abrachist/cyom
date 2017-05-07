@@ -14,7 +14,7 @@ class ModuleSeeder extends Seeder
                     ["section" =>"authorization","name" =>"role", "url" =>"admin/roles"],
                     ["section" =>"authorization","name" =>"permission", "url" =>"admin/permissions"],
                     ["section" =>"authorization","name" =>"assign permission", "url" =>"admin/give-role-permissions"],
-                    ["section" =>"generator", "name" =>"crud generator", "url" =>"generator/transaction"]    
+                    ["section" =>"tools", "name" =>"crud generator", "url" =>"generator/transaction"]    
                 ];
 
         foreach ($module as $key=>$value) {
