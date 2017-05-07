@@ -74,10 +74,10 @@ php artisan db:seed --class="ModuleSeeder"
 Enjoy !!!
 
 ```
-![Generate Master CRUD](readme/01.gif)
-![Result Master](readme/02.gif)
-![Generate Transaction CRUD](readme/03.gif)
-![Result Transaction](readme/04.gif)
+![Image](cyom/readme/01.gif)
+![Image](cyom/readme/02.gif)
+![Image](cyom/readme/03.gif)
+![Image](cyom/readme/04.gif)
 ```
 
 
