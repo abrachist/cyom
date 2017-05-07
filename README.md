@@ -74,10 +74,10 @@ php artisan db:seed --class="ModuleSeeder"
 Enjoy !!!
 
 ```
-![Image](https://github.com/abrachist/cyom/tree/move-authandtool/readme/01.gif)
-![Image](https://github.com/abrachist/cyom/tree/move-authandtool/readme/02.gif)
-![Image](https://github.com/abrachist/cyom/tree/move-authandtool/readme/03.gif)
-![Image](https://github.com/abrachist/cyom/tree/move-authandtool/readme/04.gif)
+![Image](readme/01.gif)
+![Image](readme/02.gif)
+![Image](readme/03.gif)
+![Image](readme/04.gif)
 ```
 
 
